@@ -11,10 +11,20 @@ Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 3.1, 4.1, 4.2, 5.1, 5.2, 5.3, 9.1, 9
 import json
 from collections import Counter
 
-from sqlalchemy import func
+from sqlalchemy import func, or_
 
 from app import db
-from app.models import StudentProfile, JobRole, Company, Shortlist, User, SkillTaxonomy, UncategorizedSkill
+from app.models import (
+    StudentProfile,
+    JobRole,
+    Company,
+    Shortlist,
+    User,
+    SkillTaxonomy,
+    UncategorizedSkill,
+    PlacementRecord,
+    ResumeUpload,
+)
 from app.services.analytics_service import AnalyticsService
 from app.services.skill_analyzer import SkillAnalyzer
 from app.services.job_matching import JobMatchingEngine
@@ -77,6 +87,9 @@ class DashboardService:
             "skill_breakdown": skill_breakdown,
             "matched_job_count": matched_job_count,
             "top_recommendations": top_recommendations,
+            "dream_job": profile.dream_job,
+            "expected_lpa": profile.expected_lpa,
+            "last_updated": profile.updated_at.isoformat() if profile.updated_at else None,
         }
 
     # ------------------------------------------------------------------
@@ -249,8 +262,12 @@ class DashboardService:
             "placement_overview": placement_overview,
             "active_job_count": active_job_count,
             "shortlisted_count": shortlisted_count,
+            "pending_profiles_count": self._compute_pending_profiles_count(),
+            "shortlist_status_counts": self._compute_shortlist_status_counts(),
             "recent_shortlists": recent_shortlists,
+            "recent_placements": self._get_recent_placements(limit=5),
             "top_skills_demand": top_skills_demand,
+            "top_companies": self.analytics_service.get_company_breakdown()[:5],
         }
 
     # ------------------------------------------------------------------
@@ -282,6 +299,13 @@ class DashboardService:
             "user_counts": user_counts,
             "taxonomy_health": taxonomy_health,
             "placement_overview": placement_overview,
+            "active_job_count": JobRole.query.filter(JobRole.is_active == True).count(),
+            "total_resume_uploads": ResumeUpload.query.count(),
+            "pending_profiles_count": self._compute_pending_profiles_count(),
+            "top_companies": self.analytics_service.get_company_breakdown()[:5],
+            "pending_students": self._get_pending_students(limit=6),
+            "at_risk_students": self._get_at_risk_students(limit=6),
+            "recent_placements": self._get_recent_placements(limit=5),
         }
 
     # ------------------------------------------------------------------
@@ -343,6 +367,55 @@ class DashboardService:
             "deprecated_skills": deprecated_skills,
             "uncategorized_pending": uncategorized_pending,
         }
+
+    def _get_pending_students(self, limit: int = 5) -> list[dict]:
+        """Return the most recent students whose profiles still need key fields."""
+        results = (
+            db.session.query(
+                User.name.label("student_name"),
+                User.email.label("email"),
+                StudentProfile.branch.label("department"),
+                StudentProfile.updated_at,
+            )
+            .join(StudentProfile, StudentProfile.user_id == User.id)
+            .filter(
+                or_(
+                    StudentProfile.skills_json.is_(None),
+                    StudentProfile.dream_job.is_(None),
+                    StudentProfile.expected_lpa.is_(None),
+                )
+            )
+            .order_by(StudentProfile.updated_at.desc())
+            .limit(limit)
+            .all()
+        )
+
+        return [
+            {
+                "student_name": row.student_name,
+                "email": row.email,
+                "department": row.department or "N/A",
+                "submitted_at": row.updated_at.isoformat() if row.updated_at else None,
+            }
+            for row in results
+        ]
+
+    def _get_at_risk_students(self, limit: int = 5) -> list[dict]:
+        """Return a short list of students whose profiles indicate placement risk."""
+        candidates = []
+        profiles = StudentProfile.query.all()
+        for profile in profiles:
+            score = self._compute_profile_completeness(profile)
+            if score < 50 or (profile.cgpa is not None and profile.cgpa < 6.0):
+                candidates.append({
+                    "student_name": profile.user.name if profile.user else "Unknown",
+                    "email": profile.user.email if profile.user else "",
+                    "gap_score": score,
+                    "last_updated": profile.updated_at.isoformat() if profile.updated_at else None,
+                })
+
+        candidates.sort(key=lambda item: (item["gap_score"], item["last_updated"] or ""))
+        return candidates[:limit]
 
     # ------------------------------------------------------------------
     # Private helpers – coordinator
@@ -427,3 +500,52 @@ class DashboardService:
         top_skills = skill_counter.most_common(limit)
 
         return [{"skill": name, "count": count} for name, count in top_skills]
+
+    def _compute_pending_profiles_count(self) -> int:
+        """Count profiles that still need career goal or skills details."""
+        return StudentProfile.query.filter(
+            or_(
+                StudentProfile.skills_json.is_(None),
+                StudentProfile.dream_job.is_(None),
+                StudentProfile.expected_lpa.is_(None),
+            )
+        ).count()
+
+    def _compute_shortlist_status_counts(self) -> dict[str, int]:
+        """Return shortlist record counts grouped by status."""
+        results = (
+            db.session.query(Shortlist.status, func.count(Shortlist.id))
+            .group_by(Shortlist.status)
+            .all()
+        )
+        return {status: count for status, count in results}
+
+    def _get_recent_placements(self, limit: int = 5) -> list[dict]:
+        """Return recent placement records with student and company details."""
+        results = (
+            db.session.query(
+                User.name.label("student_name"),
+                JobRole.title.label("job_title"),
+                Company.name.label("company_name"),
+                PlacementRecord.placement_date,
+                PlacementRecord.department,
+            )
+            .join(StudentProfile, PlacementRecord.profile_id == StudentProfile.id)
+            .join(User, StudentProfile.user_id == User.id)
+            .join(JobRole, PlacementRecord.job_role_id == JobRole.id)
+            .join(Company, PlacementRecord.company_id == Company.id)
+            .order_by(PlacementRecord.placement_date.desc())
+            .limit(limit)
+            .all()
+        )
+
+        return [
+            {
+                "student_name": row.student_name,
+                "job_title": row.job_title,
+                "company_name": row.company_name,
+                "placement_date": row.placement_date.isoformat() if row.placement_date else None,
+                "department": row.department,
+            }
+            for row in results
+        ]

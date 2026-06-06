@@ -112,6 +112,9 @@ class StudentProfile(db.Model):
             "dream_job": self.dream_job,
             "expected_lpa": self.expected_lpa,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "user_name": self.user.name if self.user else None,
+            "user_email": self.user.email if self.user else None,
+            "user_phone": self.user.phone if self.user else None,
             "projects": [p.to_dict() for p in self.projects],
             "certifications": [c.to_dict() for c in self.certifications],
         }

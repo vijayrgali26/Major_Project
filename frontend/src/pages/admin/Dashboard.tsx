@@ -15,6 +15,8 @@ interface CoordinatorData {
   placement_overview: PlacementOverview;
   active_job_count: number;
   shortlisted_count: number;
+  pending_profiles_count?: number;
+  shortlist_status_counts?: Record<string, number>;
   recent_shortlists: Array<{
     student_name: string;
     job_title: string;
@@ -22,7 +24,15 @@ interface CoordinatorData {
     compatibility_score: number;
     shortlisted_at: string;
   }>;
+  recent_placements?: Array<{
+    student_name: string;
+    job_title: string;
+    company_name: string;
+    placement_date: string | null;
+    department: string | null;
+  }>;
   top_skills_demand: Array<{ skill: string; count: number }>;
+  top_companies?: Array<{ company_name: string; count: number }>;
 }
 
 interface AdminData {
@@ -37,6 +47,29 @@ interface AdminData {
     uncategorized_pending: number;
   };
   placement_overview: PlacementOverview;
+  active_job_count?: number;
+  total_resume_uploads?: number;
+  pending_profiles_count?: number;
+  top_companies?: Array<{ company_name: string; count: number }>;
+  pending_students?: Array<{
+    student_name: string;
+    email: string;
+    department: string;
+    submitted_at: string | null;
+  }>;
+  at_risk_students?: Array<{
+    student_name: string;
+    email: string;
+    gap_score: number;
+    last_updated: string | null;
+  }>;
+  recent_placements?: Array<{
+    student_name: string;
+    job_title: string;
+    company_name: string;
+    placement_date: string | null;
+    department: string | null;
+  }>;
 }
 
 type DashboardData = CoordinatorData | AdminData;
@@ -154,7 +187,28 @@ function CoordinatorView({ data }: { data: CoordinatorData }) {
           <div className="stat-widget-value">{data.shortlisted_count}</div>
           <div className="stat-widget-label">Shortlisted</div>
         </div>
+        {data.pending_profiles_count != null && (
+          <div className="stat-widget">
+            <div className="stat-widget-icon">📝</div>
+            <div className="stat-widget-value">{data.pending_profiles_count}</div>
+            <div className="stat-widget-label">Needs Detail</div>
+          </div>
+        )}
       </div>
+
+      {data.shortlist_status_counts && Object.keys(data.shortlist_status_counts).length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">📊 Shortlist Status</h3>
+          <div className="admin-stat-list">
+            {Object.entries(data.shortlist_status_counts).map(([status, count]) => (
+              <div key={status} className="admin-stat-row">
+                <span className="admin-stat-label">{status}</span>
+                <span className="admin-stat-value">{count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Recent Shortlists */}
       <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
@@ -188,6 +242,36 @@ function CoordinatorView({ data }: { data: CoordinatorData }) {
           </div>
         )}
       </div>
+
+      {data.recent_placements && data.recent_placements.length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">🏆 Recent Placements</h3>
+          <div className="table-wrapper">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Job</th>
+                  <th>Company</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recent_placements.map((item, idx) => (
+                  <tr key={idx}>
+                    <td>{item.student_name}</td>
+                    <td>{item.job_title}</td>
+                    <td>{item.company_name}</td>
+                    <td>{item.department || 'N/A'}</td>
+                    <td>{item.placement_date ? new Date(item.placement_date).toLocaleDateString() : 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Top Skills */}
       <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
@@ -238,6 +322,29 @@ function AdminView({ data }: { data: AdminData }) {
           <div className="stat-widget-label">Placement Rate</div>
         </div>
       </div>
+      <div className="stats-grid-student" style={{ marginTop: '1rem' }}>
+        {data.active_job_count != null && (
+          <div className="stat-widget">
+            <div className="stat-widget-icon">💼</div>
+            <div className="stat-widget-value">{data.active_job_count}</div>
+            <div className="stat-widget-label">Active Jobs</div>
+          </div>
+        )}
+        {data.total_resume_uploads != null && (
+          <div className="stat-widget">
+            <div className="stat-widget-icon">📄</div>
+            <div className="stat-widget-value">{data.total_resume_uploads}</div>
+            <div className="stat-widget-label">Resume Uploads</div>
+          </div>
+        )}
+        {data.pending_profiles_count != null && (
+          <div className="stat-widget">
+            <div className="stat-widget-icon">📝</div>
+            <div className="stat-widget-value">{data.pending_profiles_count}</div>
+            <div className="stat-widget-label">Needs Profile</div>
+          </div>
+        )}
+      </div>
 
       {/* User Breakdown */}
       <div className="dashboard-grid-2col" style={{ marginTop: '1.5rem' }}>
@@ -253,7 +360,21 @@ function AdminView({ data }: { data: AdminData }) {
           </div>
         </div>
         <div className="dash-widget">
-          <h3 className="dash-widget-title">🛡️ System Health</h3>
+          <h3 className="dash-widget-title">🛡️ User Status</h3>
+          <div className="admin-stat-list">
+            {Object.entries(data.user_counts.by_status).map(([status, count]) => (
+              <div key={status} className="admin-stat-row">
+                <span className="admin-stat-label">{status.replace('_', ' ')}</span>
+                <span className="admin-stat-value">{count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="dashboard-grid-2col" style={{ marginTop: '1.5rem' }}>
+        <div className="dash-widget">
+          <h3 className="dash-widget-title">🧠 System Health</h3>
           <div className="admin-stat-list">
             <div className="admin-stat-row">
               <span className="admin-stat-label">Active Skills</span>
@@ -271,7 +392,128 @@ function AdminView({ data }: { data: AdminData }) {
             </div>
           </div>
         </div>
+        <div className="dash-widget">
+          <h3 className="dash-widget-title">📊 Placement Snapshot</h3>
+          <div className="admin-stat-list">
+            <div className="admin-stat-row">
+              <span className="admin-stat-label">Students</span>
+              <span className="admin-stat-value">{data.placement_overview.total_students}</span>
+            </div>
+            <div className="admin-stat-row">
+              <span className="admin-stat-label">Placed</span>
+              <span className="admin-stat-value">{data.placement_overview.placed_students}</span>
+            </div>
+            <div className="admin-stat-row">
+              <span className="admin-stat-label">Companies</span>
+              <span className="admin-stat-value">{data.placement_overview.total_companies}</span>
+            </div>
+            <div className="admin-stat-row">
+              <span className="admin-stat-label">Placement Rate</span>
+              <span className="admin-stat-value">{data.placement_overview.placement_percentage}%</span>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {data.top_companies && data.top_companies.length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">🏢 Top Hiring Companies</h3>
+          <div className="admin-stat-list">
+            {data.top_companies.map((company, idx) => (
+              <div key={idx} className="admin-stat-row">
+                <span className="admin-stat-label">{company.company_name}</span>
+                <span className="admin-stat-value">{company.count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data.recent_placements && data.recent_placements.length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">🏆 Recent Placements</h3>
+          <div className="table-wrapper">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Job</th>
+                  <th>Company</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recent_placements.map((item, idx) => (
+                  <tr key={idx}>
+                    <td>{item.student_name}</td>
+                    <td>{item.job_title}</td>
+                    <td>{item.company_name}</td>
+                    <td>{item.department || 'N/A'}</td>
+                    <td>{item.placement_date ? new Date(item.placement_date).toLocaleDateString() : 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {data.pending_students && data.pending_students.length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">⏳ Pending Student Profiles</h3>
+          <div className="table-wrapper">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Email</th>
+                  <th>Department</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.pending_students.map((student, idx) => (
+                  <tr key={idx}>
+                    <td>{student.student_name}</td>
+                    <td>{student.email}</td>
+                    <td>{student.department}</td>
+                    <td>{student.submitted_at ? new Date(student.submitted_at).toLocaleDateString() : 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {data.at_risk_students && data.at_risk_students.length > 0 && (
+        <div className="dash-widget" style={{ marginTop: '1.5rem' }}>
+          <h3 className="dash-widget-title">⚠️ At-Risk Students</h3>
+          <div className="table-wrapper">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Email</th>
+                  <th>Risk Score</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.at_risk_students.map((student, idx) => (
+                  <tr key={idx}>
+                    <td>{student.student_name}</td>
+                    <td>{student.email}</td>
+                    <td>{student.gap_score}</td>
+                    <td>{student.last_updated ? new Date(student.last_updated).toLocaleDateString() : 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </>
   );
 }

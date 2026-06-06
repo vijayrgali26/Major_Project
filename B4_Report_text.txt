@@ -1,0 +1,971 @@
+---- PAGE 1 ----
+   VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI  
+ 
+A PROJECT  PHASE -1 REPORT ON  
+“Skill2Job: AI -Driven Placement Coordination and Skill Mapping 
+System”  
+Submitted in partial fulfillment for the award of Degree of,  
+BACHELOR OF ENGINEERING   
+IN 
+COMPUTER SCIENCE AND ENGINEERING   
+By 
+Puneeth J  4AD23CS083  
+Ranjan K M  4AD23CS088  
+Vijay R Gali  4AD23CS116  
+Vikas Sampath  4AD23CS117  
+Under the Guidance of  
+Dr. Shilpa B L  
+Associate Professor  
+Department of CSE ATMECE, Mysuru  
+ 
+ 
+ 
+ DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING  
+ATME COLLEGE OF ENGINEERING  
+(Affiliated to Visvesvaraya Technological University, Belagavi &  
+Approved by AICTE, New Delhi. Recognized by Government of Karnataka. ) 
+ Accredited by NBA and NAAC with A+ Grade  
+13th Kilometer Mysore -Kanakapura -Bangalore Road, MYSORE -570028  Karnataka        
+ 
+2025 – 2026 
+
+
+---- PAGE 2 ----
+ 
+ ATME COLLEGE OF ENGINEERING  
+(Affiliated to Visvesvaraya Technological University, Belagavi &  
+Approved by AICTE, New Delhi. Recognized by Government of Karnataka. ) 
+ Accredited by NBA and NAAC with A+ Grade  
+13th Kilometer Mysore -Kanakapura -Bangalore Road, MYSORE -570028  Karnataka        
+ 
+ 
+ 
+ 
+        DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING  
+ 
+CERTIFICATE  
+ 
+This is to certify that the Project  Phase 1 entitled “Skill2Job: AI -Driven Placement 
+Coordination and Skill Mapping System ” has been successfully completed by  
+Puneeth J  4AD23CS083  
+Ranjan K M  4AD23CS088  
+Vijay R Gali  4AD23CS116  
+Vikas Sampath  4AD23CS117  
+ 
+the bonafide students of  Department of Computer Science and Engineering , ATME College 
+of Engineering,  in partial fulfillment for the award of   BACHELOR OF ENGINEERING in 
+DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING  of the VISVESVARAYA 
+TECHNOLOGICAL UNIVERSITY, BELAGAVI , during the year 20 25–2026. It is certified that all 
+corrections/suggestions indicated for Internal Assessment have been incorporated in the report deposited in 
+the departmental library. The project phase 1 report has been approved as it satisfies the academic 
+requirements in respect of Project work prescribed for the Bachelor of Engineering Degree.  
+ 
+                                                
+ 
+  Dr. Shilpa B L                                                         Dr. Puttegowda D  
+   Project Guide                                                                                            Head of the Department                                             
+Associate  Professor                                   
+                   
+ 
+ 
+ 
+      
+
+
+---- PAGE 3 ----
+i 
+  
+ATME COLLEGE OF ENGINEERING  
+(Affiliated to Visvesvaraya Technological University, Belagavi &  
+Approved by AICTE, New Delhi. Recognized by Government of Karnataka. ) 
+Accredited by NBA and NAAC with A+ Grade  
+13th Kilometer Mysore -Kanakapura -Bangalore Road, MYSORE -570028  Karnataka  
+ 
+ 
+DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING  
+Declaration  
+We,  
+      Puneeth J              4AD23CS083    
+            Ranjan K M        4AD23CS088    
+            Vijay R Gali        4AD23CS116    
+      Vikas Sampath  4AD23CS117    
+ 
+hereby declare that the Project phase 1 report entitled, Skill2Job: AI -Driven Placement 
+Coordination and Skill Mapping System  is completed and written by us under the supervision 
+of our guide  Dr Shilpa B L , Associate Professor  , Department of Computer Science and 
+Engineering , ATME College of Engineering, Mysore -570028,  in partial fulfillment of  the 
+requirements for the award of the degree BACHELOR OF ENGINEERING  in  
+DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING  of the  
+VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI , during the academic 
+year 20 25-2026.The Project phase 1  report is original and it has not been submitted for any other 
+degree in any university.  
+ 
+Puneeth J         4AD23CS083  
+Ranjan K M         4AD23CS088  
+Vijay R Gali         4AD23CS116  
+                  Vikas Samapth   4AD23CS117  
+
+
+---- PAGE 4 ----
+ii 
+     
+ACKNOWLEDGEMENT  
+The satisfaction and euphoria that accompany a successful completion of any task would be 
+incomplete without the mention of people who made it possible, success is the epitome of hard 
+work and perseverance, but steadfast of all is encouraging guidance.  
+ 
+So, with gratitude we acknowledge all those whose guidance and encouragement served as 
+beacon of light and crowned the effort with success.  
+ 
+We thank our project guide Dr Shilpa B L , Associate Professor in Department of 
+Computer Science and Engineering , who has been our source of inspiration. She has been 
+especially enthusiastic in giving his/ her valuable guidance and critical reviews.  
+ 
+The selection of this project work as well as the timely completion is mainly due to the 
+interest and persuasion of our project coordinator s Dr. J V Gorabal  and Dr.  Jayantkumar A 
+Rathod , Professor, Department of Computer Science and Engineering . We will remember their 
+contribution towards constructive feedback , support and encouragement.  
+ 
+  We sincerely thank, Dr. Putte Gowda D,  Professor and Head, Department of Computer 
+Science and Engineering who has been the constant driving force behind the completion of the 
+project.  
+ 
+We thank our beloved Principal Dr. L Basavaraj , for his constant help,  motivation and 
+support throughout.  
+ 
+We are indebted to Management of ATME  College of Engineering , Mysore f or 
+providing an environment whi ch helped us in completing our P roject  phase 1 work successfully . 
+ 
+Also, we thank all the teaching and non -teaching staff of Department of Computer Science 
+and Engineering  for the help rendered.  
+ 
+ 
+ 
+ 
+Puneeth J        4AD23CS083  
+Ranjan K M        4AD23CS088  
+Vijay R Gali        4AD23CS116  
+                   Vikas Sampath      4AD23CS117  
+ 
+
+---- PAGE 5 ----
+iii 
+ ABSTRACT  
+ 
+The rapid growth of the job market and increasing competition among students has made 
+placement coordination a complex and time -consuming task for educational institutions. 
+Traditional placement systems rely heavily on academic scores such as CGPA and basi c eligibility 
+criteria, which often fail to reflect the actual skill level of students. As a result, many capable 
+students remain unmatched with suitable job roles, and placement officers spend excessive time 
+manually filtering candidates.  
+ 
+The proposed project, Skill2Job, is an Artificial Intelligence (AI) -driven platform designed to 
+automate placement coordination and skill mapping processes. The system analyzes student 
+profiles, identifies technical skills, generates professional resumes a utomatically, and recommends 
+suitable job roles based on skill compatibility. Additionally, the system identifies skill gaps and 
+suggests relevant courses or learning paths to improve employability.  
+ 
+The system benefits students, placement officers, and institutions by providing faster candidate 
+shortlisting, improved accuracy in job -role matching, and better placement outcomes. The 
+integration of machine learning algorithms ensures efficient skill -based filtering and 
+recommendation processes. Overall, the Skill2Job platform enhances placement efficiency, 
+supports career growth, and bridges the gap between academic learning and industry requirements.  
+ 
+Keywords: Artificial Intelligence, Placement Coordination, Skill Mapping, Natural Language 
+Processing, Machine Learning, Resume Generation, Job Recommendation.  
+  
+
+---- PAGE 6 ----
+iv 
+ LIST OF TABLES  
+ 
+Table No.  Title  Page No.  
+Table 2.1  Literature Survey Summary  6-8 
+Table 3.1  Technology Stack  10 
+Table 6.1 Detailed  phase -wise work  plan 17-18 
+
+---- PAGE 7 ----
+v 
+   
+LIST OF FIGURES  
+ 
+Figure No.  Title  Page No.  
+Figure 5.1 Student Job Matching Cycle – Flow Diagram  12 
+Figure 5.2  System Architecture  13 
+Figure 5.3  DFD Level 0, 1 & 2  14 
+Figure 6.1  Gantt Chart  18 
+  
+
+---- PAGE 8 ----
+vi 
+ TABLE OF CONTENTS  
+Chapter 
+No. Description  Page No.  
+ DECLARATION  i 
+ ACKNOWLEDGEMENTS  ii 
+ ABSTRACT  iii 
+ LIST OF TABLES  iv 
+ LIST OF FIGURES  v 
+1. INTRODUCTION   
+ 1.1  Introduction  1 
+ 1.2  Problem Statement  1 
+ 1.3  Motivation and Objectives of the Project  2 
+ 1.4  Existing  System & Drawbacks  2 
+ 1.5  Proposed Solution & Advantages  3 
+2. LITERATURE SURVEY  4 
+3. REQUIREMENT SPECIFICATION  9 
+ 3.1  Functional Requirements  9 
+ 3.2  Non -Functional Requirements  9 
+ 3.3  Technical  Requirements (Hardware/Software)  10 
+4. PROPOSED METHODOLOGY  11 
+5. SYSTEM ARCHITECTURE  12 
+6. WORK PLAN / TIMELINE (GANTT CHART)  17 
+7. EXPECTED OUTCOME  20 
+8. CONCLUSION  21 
+ REFERENCES  22 
+
+---- PAGE 9 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   1 CHAPTER 1  
+INTRODUCTION  
+1.1 Introduction  
+In today's rapidly evolving technological environment, the job market has become highly 
+competitive. Employers are increasingly focusing on practical skills, project experience, and 
+domain knowledge rather than solely relying on academic performance. Stude nts are expected to 
+demonstrate proficiency in various technologies and tools to secure suitable employment 
+opportunities.  
+Most educational institutions still depend on traditional placement methods that involve 
+manual data entry, resume verification, and eligibility filtering based on academic performance. 
+These methods are inefficient and often lead to mismatches between stu dent capabilities and 
+company requirements. Placement officers face challenges in managing large volumes of student 
+data, resulting in delays and inaccuracies.  
+Artificial Intelligence has emerged as a powerful solution for automating complex 
+decision -making processes. AI -based systems can analyze large datasets, identify patterns, and 
+provide accurate recommendations within a short period. Integrating AI into pla cement systems 
+enables intelligent skill analysis, resume generation, and job -role matching.  
+The Skill2Job system aims to modernize campus placement processes by incorporating AI -
+driven techniques. The platform provides automated resume generation, skill analysis, job -role 
+recommendation, and skill -gap identification. By combining intelligent algo rithms and structured 
+data processing, the system ensures efficient placement coordination and improved employability 
+outcomes.  
+1.2 Problem Statement  
+Placement coordination in many colleges is still handled manually, which makes it difficult to 
+match student skills with company requirements. The process mainly focuses on basic criteria like 
+CGPA, without properly evaluating or tracking student technical  skills. As a result, students often 
+remain unaware of the skills needed for specific job roles.  
+
+---- PAGE 10 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   2 Manual filtering of eligible candidates also consumes a great deal of time for placement officers. 
+This approach does not consider technical skills, project experience, or domain expertise, which 
+are critical for job selection. The lack of an intelligent s ystem results in delayed shortlisting, 
+inaccurate job -role matching, and limited placement opportunities. Hence, there is a need for an 
+intelligent system that can automatically map skills and provide suitable job recommendations.  
+1.3 Motivation and Objectives of the Project  
+The motivation behind Skill2Job arises from the evident gap between student skill sets and 
+industry expectations. The need to modernize campus placement with AI -powered tools has driven 
+this project.  
+The main objectives of Skill2Job are:  
+• To develop an automated resume generation system based on student profile and key skills.  
+• To develop an AI -based placement coordination system and map student skills with 
+company job requirements.  
+• To identify skill gaps for students and provide course recommendations based on skill 
+profiles.  
+• To develop a system that enables placement officers to shortlist eligible candidates and 
+analyze  placement success rates with improved accuracy and reduced processing time.  
+1.4 Existing System & Drawbacks  
+The existing placement systems used in many institutions are primarily manual. Student data is 
+collected through forms and stored in spreadsheets. Placement officers verify eligibility criteria 
+manually and send selected resumes to companies.  
+Limitations of the Existing System:  
+• Time -consuming data processing and manual resume verification.  
+• Limited skill evaluation — only CGPA and basic eligibility are checked.  
+• Increased workload for placement officers managing large datasets.  
+• High possibility of human errors in candidate shortlisting.  
+• No mechanism for skill -gap identification or learning path suggestions.  
+ 
+
+---- PAGE 11 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   3 1.5 Proposed Solution & Advantages  
+The proposed Skill2Job system is an AI -driven platform designed to automate placement 
+coordination and skill mapping processes. The system collects student data, analyzes skill sets, 
+generates professional resumes, and recommends suitable job roles.  
+Key advantages of the proposed system:  
+• Automated resume generation based on student profile and skills.  
+• Intelligent skill mapping with accurate job recommendations using ML algorithms.  
+• Identification of skill gaps and suggestion of relevant courses or learning paths.  
+• Reduced manual workload for placement officers with faster candidate shortlisting.  
+• Real-time insights into student performance and placement analytics.  
+  
+
+---- PAGE 12 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   4 CHAPTER 2  
+LITERATURE SURVEY  
+Several research studies have explored the application of Artificial Intelligence in career guidance 
+and placement systems. The following literature survey highlights important contributions and 
+their limitations.  
+[1] Selvaraj et al. (2025) — AI-Driven Intelligent Career Mapping and Skill -based Job Role 
+Predicting Career Guidance System  This paper proposes a career guidance system that uses 
+LightGBM to predict suitable job roles based on student skills, with SMOTE applied to handle 
+class imbalance in the dataset. It achieved a strong accuracy of 90.18%, making it effective for 
+skill-based career prediction. However, the study is limited by a small dataset (~500 records) and 
+relies on self -reported skills without deep learning models.  
+[2] El-Khalili et al. (2025) — AI-Powered Career Guidance System  This work combines a 
+Random Forest classifier with the Big Five personality test to recommend career paths, achieving 
+87.3% accuracy and an AUC -ROC of 0.99. It also integrates VR -based career exploration to give 
+students an immersive experience of potenti al job environments. The main limitation is its reliance 
+on a Western -context dataset, reducing applicability to diverse regional settings.  
+[3] Mirajkar et al. (2024) — Skill Recommendation System and Resume Analysis using AI  
+The authors developed an NLP -based resume parsing system using Streamlit that extracts skills, 
+scores resumes, and visualizes career field suitability. It focuses on resume -level analysis and 
+provides skill recommendations based on predefined category map pings. The system lacks job -
+role matching capabilities and does not report quantitative accuracy metrics.  
+[4] Gangoda et al. (2024) — Resume Ranker: AI -Based Skill Analysis and Skill Matching 
+System  This system uses SpaCy, KeyBERT, and Word2Vec with cosine similarity to rank 
+candidates by matching resume skills against job requirements, achieving F1 scores of 0.89 –0.95. 
+It provides a data -driven shortlisting mechanism useful for recruiters handling l arge applicant 
+pools. Limitations include dependency on LinkedIn data and specificity to the Japan labor market, 
+with limited skill -gap analysis.  
+ 
+
+---- PAGE 13 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   5 [5] Balakumar et al. (2024) — Impact of AI -Driven Automation on Job Displacement and 
+Skill Development  This study applies Gradient Boosting combined with Explainable AI (SHAP) 
+to predict job displacement risk due to automation, achieving 98% accuracy and 97% precision. 
+The use of SHAP values adds transparency by explaining which factors contribute most to 
+displacement predictions. However, it is purely predictive and does not offer actionable skill 
+development recommendations or placement coordination features.  
+[6] Jawhar et al. (2024) — AI-Powered Customized University and Career Guidance  The 
+paper presents an NLP -based chatbot that profiles students based on personality and academic data 
+to suggest suitable universities and career paths, with 85% student satisfaction. It personalizes 
+guidance by integrating multiple data inputs including e xtracurricular interests and academic 
+performance. The system is limited to university selection and does not address skill -gap analysis, 
+resume generation, or job -matching components.  
+[7] Baklarova et al. (2025) — AI-Based Advisory System for Career Guidance  This research 
+develops a knowledge -based advisory system that uses AI decision trees to provide career field 
+suggestions, reaching 82% accuracy in career field recommendations. The rule -based architecture 
+makes the system interpretable but limits its adap tability to dynamic, real -world skill markets. It 
+lacks resume generation and job -matching modules, making it unsuitable as a complete placement 
+coordination solution.  
+[8] Rakshitha et al. (2025) — An AI -Driven Framework for Personalized Career Path 
+Recommendations  The authors propose a hybrid recommendation engine combining 
+collaborative filtering and content -based approaches to deliver personalized career roadmaps, 
+achieving 88% user satisfaction. The system tailors suggestions based on individual student 
+profiles  and historical career data from similar users. Key limitations include no automated resume 
+generation and the absence of a placement officer dashboard or institutional integration.  
+[9] Prathyusha et al. (2025) — Skill Mentor: AI -Driven Student Skill Enhancement and 
+Placement Prediction Framework  This framework uses Random Forest and SVM to predict 
+placement outcomes and suggest skill enhancement paths, achieving 91% placement prediction 
+accuracy. It bridges skill development and placement readiness by identifying gaps between 
+student competencies  and industry expectations. The system is limited to a single institution's 
+dataset and does not include an admin dashboard or automated resume generation.  
+ 
+
+---- PAGE 14 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   6 [10] Kumar & Singh (2023) — Machine Learning Techniques for Resume Classification and 
+Candidate Recommendation  The paper applies SVM combined with TF -IDF feature extraction 
+to classify resumes and recommend candidates, achieving 93% accuracy in candidate ranking. It 
+demonstrates the effectiveness of traditional ML techniques for automating the early -stage 
+recruitm ent screening process. The system uses a static skill taxonomy with no dynamic skill -gap 
+identification or course recommendation feature.  
+ 
+ 
+ Table 2.1: Literature Survey Summary  
+Author & 
+Year  Paper Title  Method / Result  Limitations / Gap  
+Selvaraj et 
+al. (2025)  AI-Driven Intelligent 
+Career Mapping and 
+Skill -based Job Role 
+Predicting Career 
+Guidance System  LightGBM career 
+prediction using 
+student skills and 
+SMOTE balancing; 
+accuracy 90.18%  Small dataset (~500 
+records), self -reported 
+skills, no deep 
+learning, limited 
+tracking  
+El-Khalili 
+et al. (2025)  AI-Powered Career 
+Guidance System  Random Forest with 
+Big Five personality 
+test; VR career 
+exploration; 87.3% 
+accuracy, AUC -ROC 
+0.99 Western -context 
+dataset, limited 
+regional data, multi -
+class Gradient 
+Boosting issues  
+Mirajkar et 
+al. (2024)  Skill Recommendation 
+System and Resume 
+Analysis using AI  NLP resume parsing 
+via Streamlit; skill 
+extraction, resume 
+scoring, career field 
+visualization  Resume -focused only, 
+predefined skill 
+categories, no job 
+matching, no accuracy 
+metrics reported  
+Gangoda et 
+al. (2024)  Resume Ranker: AI -
+Based Skill Analysis SpaCy, KeyBERT, 
+Word2Vec with LinkedIn dependency, 
+Japan labor market -
+
+---- PAGE 15 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   7 Author & 
+Year  Paper Title  Method / Result  Limitations / Gap  
+and Skill Matching 
+System  cosine similarity; F1 
+score 0.89 –0.95 specific, limited skill -
+gap analysis  
+Balakumar 
+et al. (2024)  Impact of AI -Driven 
+Automation on Job 
+Displacement and Skill 
+Development  Gradient Boosting + 
+Explainable AI 
+(SHAP); 98% 
+accuracy, 97% 
+precision  Prediction -only focus, 
+single Kaggle dataset, 
+no actionable skill 
+recommendations  
+Jawhar et 
+al. (2024)  AI-Powered 
+Customized University 
+and Career Guidance  NLP -based chatbot 
+with personality 
+profiling; 85% student 
+satisfaction in 
+university and career 
+recommendations  Limited to university 
+selection only; no 
+skill-gap analysis, 
+resume generation, or 
+job-matching 
+component  
+Baklarova 
+et al. (2025)  AI-Based Advisory 
+System for Career 
+Guidance  Knowledge -based 
+advisory system using 
+AI decision trees; 82% 
+accuracy in career 
+field suggestion  Rule -based approach 
+limits adaptability; no 
+resume generation or 
+job-matching module 
+integrated  
+Rakshitha 
+et al. (2025)  An AI -Driven 
+Framework for 
+Personalized Career 
+Path Recommendations  Collaborative filtering 
++ content -based 
+hybrid model; 
+personalized 
+roadmaps with 88% 
+user satisfaction  No automated resume 
+generation; lacks 
+placement officer 
+dashboard and 
+institutional 
+integration  
+Prathyusha 
+et al. (2025)  Skill Mentor: AI -Driven 
+Student Skill 
+Enhancement and Random Forest + 
+SVM placement 
+prediction; skill No automated resume 
+generation; limited to 
+single -institution 
+
+---- PAGE 16 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   8  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The above T able 2.1 highlight the importance of AI in career and placement systems. However, 
+most existing systems focus on individual components such as resume analysis or career 
+prediction. The proposed Skill2Job system integrates resume generation, skill mapping, job 
+recom mendation, and skill -gap identification into a unified platform, addressing the limitations 
+identified in previous research.  
+  Author & 
+Year  Paper Title  Method / Result  Limitations / Gap  
+Placement Prediction 
+Framework  enhancement 
+suggestions; 91% 
+placement prediction 
+accuracy  dataset; no admin 
+dashboard  
+Kumar & 
+Singh 
+(2023)  Machine Learning 
+Techniques for Resume 
+Classification and 
+Candidate 
+Recommendation  SVM + TF -IDF for 
+resume classification; 
+93% accuracy in 
+candidate ranking and 
+recommendation  Static skill taxonomy; 
+no dynamic skill -gap 
+identification or 
+course 
+recommendation 
+feature  
+
+---- PAGE 17 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   9 CHAPTER 3  
+REQUIREMENT SPECIFICATION  
+3.1 Functional Requirements  
+• Student registration, login, and profile management.  
+• Automated professional resume generation based on student data.  
+• Skill analysis and mapping using NLP and machine learning.  
+• Job-role recommendation based on skill compatibility scores.  
+• Skill -gap identification and course recommendation for improvement.  
+• Admin module for managing student records, company data, and placement progress.  
+• Placement officer dashboard for shortlisting candidates and viewing analytics.  
+3.2 Non -Functional Requirements  
+• Performance: The system should process skill analysis and job matching within an 
+acceptable response time even with large datasets.  
+• Scalability: The platform should handle multiple simultaneous users — students, admins, 
+and placement officers — without degradation.  
+• Security: User data must be stored securely with authentication and authorization controls.  
+• Usability: The interface should be intuitive and user -friendly for students with varying 
+levels of technical proficiency.  
+• Reliability: The system must maintain consistent accuracy in job -role matching and skill -
+gap analysis.  
+• Maintainability: The codebase should be modular and well -documented for future 
+enhancements.  
+3.3 Technical Requirements (Hardware / Software)  
+Hardware Requirements:  
+• Processor: Intel Core i5 or higher (or equivalent)  
+• RAM: Minimum 8 GB  
+
+---- PAGE 18 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   10 • Storage: Minimum 256 GB SSD  
+• Network: Stable internet connection for deployment and API access  
+ 
+Software Requirements:  
+Table  3.1 Technology Stack  
+ 
+ 
+ 
+ 
+ 
+This table  3.1 illustrates the overall technology stack used in the system. It shows the interaction 
+between frontend, backend, database, and AI modules. It provides a clear view of system 
+implementation layers.  
+ 
+ 
+ 
+ 
+ 
+ 
+ Category  Technologies  
+Frontend  HTML, CSS, JavaScript, React (Optional)  
+Backend  Python, Flask / Node.js  
+Database  MySQL  
+AI/ML Techniques  Natural Language Processing (NLP), Machine 
+Learning Algorithms  
+
+---- PAGE 19 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   11 CHAPTER 4  
+PROPOSED METHODOLOGY  
+The methodology describes the sequence of steps followed in the Skill2Job system. The system is 
+designed to work as an end -to-end automated placement coordination platform.  
+1. Student Registration — Students create an account and provide personal and contact 
+details.  
+2. Profile Creation — Students enter academic information, technical skills, and project 
+details.  
+3. Resume Generation — The system automatically generates a professional resume based 
+on the entered data using predefined templates.  
+4. Skill Analysis — Machine learning algorithms (NLP -based) analyze and categorize the 
+student's technical skills.  
+5. Job Matching — The system compares student skill vectors with job requirement vectors 
+using cosine similarity or similar ML techniques.  
+6. Skill Gap Identification — Missing skills are identified by comparing the student's profile 
+against job role requirements.  
+7. Recommendation Generation — Suitable job roles and relevant online courses are 
+recommended to bridge identified skill gaps.  
+This methodology ensures that each student receives a personalized experience, and placement 
+officers receive a ranked shortlist of candidates for each company requirement — all with minimal 
+manual intervention.  
+  
+
+---- PAGE 20 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   12 CHAPTER 5  
+SYSTEM ARCHITECTURE  
+The system architecture consists of multiple interacting components that collectively perform 
+placement coordination tasks. The major components are:  
+• Student Interface — Web -based front -end for students to register, manage profiles, 
+generate resumes, and view job recommendations.  
+• Admin Interface — Dashboard for placement officers and administrators to manage student 
+data, add companies, and monitor placement activities.  
+• Skill Analyzer Module — NLP -based engine that extracts and categorizes skills from 
+student profiles.  
+• Resume Generator Module — Template -driven module that automatically creates 
+professional resumes in PDF/DOCX format.  
+• Job Matching Engine — ML algorithm that computes compatibility scores between student 
+skills and job requirements.  
+• Database Server — MySQL relational database storing student profiles, company data, job 
+roles, and skill mappings.  
+The flow diagram below illustrates the end -to-end Student Job Matching Cycle of the Skill2Job 
+system:  
+ 
+ 
+ 
+ 
+ 
+ 
+                                
+Figure 5.1: Student Job Matching Cycle – Flow Diagram  
+
+
+---- PAGE 21 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   13 Figure 5.1 represents t he architecture ensures secure data storage, efficient multi -module 
+processing, and accurate real -time recommendation results. The modular design also supports 
+future integration with corporate recruitment systems and online learning platforms.  
+Figure 5.2: System Architecture  
+The above Figure 5.2  Skill2Job system architecture consists of five core processing modules — 
+Profile & Data Management, Resume Generation, Skill Analysis & Mapping, Job 
+Recommendation, and Skill Gap & Course Recommendation — all integrated within the central 
+Skill2Job System  Core. The Student Interface allows students to register, create profiles, generate 
+resumes, and view personalized job recommendations and skill -gap suggestions, while the Admin 
+Interface enables management of students, companies, job openings, and placeme nt analytics.  
+ 
+ 
+ 
+ 
+ 
+
+
+---- PAGE 22 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   14 Data Flow Diagram  
+The Data Flow Diagram (DFD) represents the overall functioning of the Skill2Job: AI -Driven 
+Placement Coordination and Skill Mapping System. It illustrates how data flows between users, 
+system modules, and databases across different levels.  
+Figure 5. 3: DFD Level 0, 1 & 2  
+This Figure 5. 3 illustrates the Data Flow Diagrams (DFD) for the system across three levels, 
+detailing how information moves between users, the AI -based skill mapping engine, and various 
+databases for placement coordination and job recommendation.  
+ 
+DFD Level 0 – Context Diagram  
+The Level 0 diagram provides a high -level overview of the system. The Skill2Job System acts as 
+the central entity interacting with four external entities:  
+• Students/Team Members provide profile details, academic information, technical skills, and 
+queries to the system and receive generated resumes, job recommendations, skill -gap 
+reports, and alerts.  
+• Placement Officer provides company data and eligibility criteria, and receives shortlisted 
+candidate reports and placement analytics.  
+• Companies provide job role requirements and receive matched candidate profiles from the 
+system.  
+
+
+---- PAGE 23 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   15 • Admin manages user accounts, company records, system settings, and overall data 
+management.  
+This level shows the overall interaction between external users and the system without exposing 
+internal process details.  
+ 
+DFD Level 1 – Major Processes  
+Level 1 breaks down the system into major functional modules:  
+ 
+• NLP Skill Extraction Module (1.0) — Parses student profiles and uploaded resumes using 
+SpaCy -based NLP to extract and categorize technical skills for downstream processing.  
+• Resume Generator (2.0) — Automatically generates professional PDF resumes from student 
+profile data including skills, education, projects, and experience.  
+• Skill Mapping (3.0) — Computes compatibility scores between student skill vectors and 
+company job requirement vectors using cosine similarity and keyword -based matching 
+algorithms.  
+• Job Recommendation (4.0) — Ranks and delivers personalized job role and company 
+suggestions to students based on computed compatibility scores; identifies skill gaps and 
+recommends learning paths.  
+• Reports & Analytics (5.0) — Generates placement reports, skill distribution dashboards, and 
+performance analytics for placement officers and administrators.  
+ 
+Each process interacts with corresponding data stores:  
+D1: Student Database  
+D2: Skills Database  
+D3: Resume Database  
+D4: Job Roles & Company Database  
+D5: Reports Database  
+DFD Level 2 – Detailed Job Recommendation & Skill Gap Process  
+Level 2 provides a detailed view of the Job Recommendation module (4.0):  
+4.1 Collect Student Profiles – Retrieves academic details, skills, and project data from the student 
+database  
+
+---- PAGE 24 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   16 4.2 NLP Skill Extraction – Parses and categorizes technical skills from profiles using SpaCy -based 
+processing  
+4.3 Skill –Job Matching – Compares student skill vectors against job requirement vectors to 
+compute compatibility scores  
+4.4 Skill Gap Detection – Identifies missing skills by comparing the student profile against target 
+job role requirements  
+4.5 Course Recommendations – Suggests relevant online courses and learning paths to bridge 
+identified skill gaps  
+4.6 Generate Reports – Produces ranked shortlists, placement analytics, and recommendation 
+summaries for users and placement officers  
+ 
+The process interacts mainly with:  
+D2 (Skills Database)  
+D4 (Job Roles & Company Database)  
+D5 (Reports Database)  
+ 
+The DFD clearly shows how students interact with the system through skill submission and profile 
+creation, how resumes are generated and skills are mapped to job roles, and how placement 
+recommendations are continuously refined. The system ensures efficien t data handling through 
+multiple databases and provides timely job matches, skill -gap insights, and reports for better 
+placement decision -making.   
+
+---- PAGE 25 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   17 CHAPTER 6  
+WORK PLAN  
+Week 
+No. Timeline  Activity  Description  
+1 Feb 03 – 
+Feb 09, 2026  Literature Survey & 
+Research  Reviewed AI -driven placement systems, NLP -based resume tools, and skill 
+mapping papers. Identified the problem statement and core objectives for 
+Skill2Job.  
+2 Feb 10 – 
+Feb 16, 2026  Requirement 
+Analysis  Collected functional and non -functional requirements from students, placement 
+officers, and admins. Defined key system features and constraints.  
+3 Feb 17 – 
+Feb 23, 2026  System Design (High 
+Level)  Designed system architecture, DFD (Level 0 & 1), use case diagram, and ER 
+diagram. Finalized the database schema for all major modules.  
+4 Feb 24 – 
+Mar 02, 2026  Technology Stack & 
+Planning  Finalized tech stack: React, Python Flask, MySQL, and NLP libraries. Planned 
+module breakdown, development approach, and work breakdown structure.  
+5 Mar 03 – 
+Mar 09, 2026  UI/UX Design  Designed wireframes and prototypes for student, placement officer, and admin 
+interfaces. Focused on responsive layout and intuitive navigation.  
+6 Mar 10 – 
+Mar 16, 2026  Environment Setup  Configured Git repository, Flask backend, MySQL database, and IDE. Deployed 
+the initial project structure to establish a stable development baseline.  
+7 Mar 17 – 
+Mar 23, 2026  User Authentication 
+Module  Developed user registration, login, password reset, and role -based access 
+control for student, placement officer, and admin roles.  
+8 Mar 24 – 
+Mar 30, 2026  Student Profile 
+Module  Implemented student profile creation with academic details, skills input, project 
+upload, and profile update functionalities.  
+9 Mar 31 – Apr 
+06, 2026  Admin & Placement 
+Officer Module  Developed the admin module to manage student records, add company details, 
+set eligibility criteria, and monitor placement progress.  
+10 Apr 07 – Apr 
+13, 2026  Resume Generator 
+Module  Implemented automated professional resume generation from student profile 
+data including skills, education, projects, and experience as PDF output.  
+11 Apr 14 – Apr 
+20, 2026  NLP Skill Extraction 
+Module  Integrated SpaCy -based NLP to parse and categorize technical skills from 
+student profiles and uploaded resumes for downstream skill analysis.  
+12 Apr 21 – Apr 
+27, 2026  Skill Mapping 
+Algorithm  Implemented cosine similarity and keyword -based matching to compare student 
+skill profiles against company job requirements and compute compatibility 
+scores.  
+13 Apr 28 – 
+May 04, 
+2026  Job Matching Engine  Developed an ML -based job matching engine that ranks and recommends 
+suitable job roles for students based on computed skill compatibility scores.  
+14 May 05 – 
+May 11, 
+2026  Skill Gap Analysis 
+Module  Identified missing skills for target job roles and recommended relevant online 
+courses and learning paths to improve student employability.  
+15 May 12 – 
+May 18, 
+2026  Job 
+Recommendation 
+Module  Integrated the end -to-end recommendation pipeline to deliver personalized 
+company and role suggestions based on student skill profiles.  
+16 May 19 – 
+May 25, 
+2026  Analytics & 
+Dashboard  Developed placement analytics dashboards with skill distribution charts, 
+placement statistics, and candidate shortlisting reports for officers.  
+17 May 26 – 
+Jun 01, 2026  Integration & API 
+Testing  Integrated all modules and validated API endpoints for resume generation, skill 
+mapping, job matching, and recommendation services.  
+
+---- PAGE 26 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   18 Table 6. 1 Detailed  phase -wise work  plan 
+This Table 6.1 represents the timeline of the project activities across different phases. It ensures 
+systematic development from requirement analysis to final documentation. It helps in tracking 
+progress and timely completion.  
+ The following Gantt chart outlines the planned timeline for the development and completion of 
+the Skill2Job project across seven weeks.     
+ 
+Figure 6.1 : Project Work Plan – Gantt Chart  
+ 
+■ : Batch Formation  
+■ : Problem Statement Selection & Guide Allotment  
+■ : Literature Survey & Review -I 
+■ : Requirement Analysis  
+■ : Review -II 
+■ : System Design  
+■ : Implementation  
+Week 
+No. Timeline  Activity  Description  
+18 Jun 02 – Jun 
+08, 2026  System Testing  Performed unit, integration, and user acceptance testing using sample student 
+data to validate system accuracy and performance.  
+19 Jun 09 – Jun 
+15, 2026  Bug Fixing & 
+Optimization  Resolved identified bugs, optimized ML model performance, improved resume 
+generation quality, and enhanced UI/UX responsiveness.  
+20 Jun 16 – Jun 
+22, 2026  Deployment & 
+Documentation  Deployed the system on a cloud server and prepared the final project report, 
+user manual, and complete technical documentation.  
+
+---- PAGE 27 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   19 ■ : Testing  
+■ : Documentation  
+■ : Final Review & Submission  
+Figure  6.1 represents t he timeline ensures systematic progress from requirements analysis through 
+to final report writing, with dedicated phases for design, development, and testing.  
+This Gantt chart outlines the timeline for the “AI -Driven Placement Coordination and Skill 
+Mapping System” project from January to June 2026. It shows a structured progression starting 
+with planning and research phases, followed by design, development, tes ting, and documentation. 
+The chart ensures clear task scheduling and timely reviews, leading to final submission in June.  
+ 
+    
+  
+
+---- PAGE 28 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   20 CHAPTER 7  
+EXPECTED OUTCOME  
+The expected outcomes of the Skill2Job system, as defined in the project objectives and validated 
+through the PPT presentation, include:  
+• Automatic generation of professional resumes using student profile and skills — 
+eliminating the need for manual resume writing and ensuring a consistent, industry -
+standard format.  
+• Efficient skill mapping with accurate job recommendations — the AI engine matches each 
+student's skill set to the most compatible job roles, improving placement accuracy 
+significantly compared to CGPA -based filtering.  
+• Identification of skill gaps to improve employability — the system highlights missing skills 
+required for target job roles and recommends specific courses or learning resources to 
+address those gaps.  
+• Faster shortlisting of candidates and improved placement process — placement officers 
+gain access to a ranked, filtered list of suitable candidates for each company, drastically 
+reducing the time spent on manual screening.  
+Beyond these direct outcomes, the system is expected to contribute to a measurable improvement 
+in overall campus placement rates and student employability indices over successive academic 
+years.  
+  
+
+---- PAGE 29 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   21 CHAPTER 8  
+CONCLUSION  
+The Skill2Job system provides an intelligent solution to modern placement challenges by 
+integrating Artificial Intelligence and Machine Learning techniques. The platform simplifies 
+placement coordination, improves candidate selection accuracy, and enhances  student 
+employability.  
+By automating resume generation, skill analysis, and job -role recommendation processes, 
+the system reduces manual workload and improves placement outcomes for students, placement 
+officers, and institutions alike. The implementation of Skill2Job contributes  to the development of 
+efficient recruitment systems and supports career growth for students.  
+The Skill2Job system aims to improve campus placements by integrating AI -based skill 
+mapping and job recommendation techniques. By analyzing student skills and company 
+requirements, the system can provide accurate candidate matching and skill -gap analysis,  which 
+helps both students and placement officers. This project will contribute to enhancing employability 
+and optimizing placement processes in educational institutions.  
+Future enhancements may include integration with corporate recruitment APIs, LinkedIn 
+profile parsing, online learning platform integration, and predictive analytics for placement success 
+forecasting.  
+  
+
+---- PAGE 30 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   22 REFERENCES  
+1. Selvaraj, K., V. K., M. R. P., and M. A. M., "AI -Driven Intelligent Career Mapping and 
+Skill -Based Job Role Predicting Career Guidance System," Third International Conference 
+on Augmented Intelligence and Sustainable Systems (ICAISS), Trichy, India, 2025, pp. 
+1398 -1404, doi: 10.1109/ICAISS61471.2025.11041827.  
+2. El-Khalili, N., K. S. Dardese, N. T. Alotaibi, Y. Mubaydeen and I. Tahboub, "AI -Powered 
+Career Guidance System," International Conference on Computational Intelligence 
+Approaches and Applications (ICCIAA), Amman, Jordan, 2025, pp. 1 -6, doi: 
+10.1109/ICCIAA6 5327.2025.11013279.  
+3. Mirajkar, R. R., G. R. Shinde, P. M. Shelke, S. Yadav, B. Shinde and G. Shinde, "Skill 
+Recommendation System and Resume Analysis using AI," IEEE Pune Section 
+International Conference (PuneCon), Pune, India, 2024, pp. 1 -3, doi: 
+10.1109/PuneCon63413.2024.108 95306.  
+4. Gangoda, N., K. P. Yasantha, C. Sewwandi, N. Induvara, S. Thelijjagoda and N. Giguruwa, 
+"Resume Ranker: AI -Based Skill Analysis and Skill Matching System," Sixth International 
+Conference on Intelligent Computing in Data Sciences (ICDS), Marrakech, Morocco,  
+2024, pp. 1 -8, doi: 10.1109/ICDS62089.2024.10756304.  
+5. Balakumar, P., D. Sawant, D. Nimma, S. A. Khan, A. Siddiqua and K. C., "Impact of AI -
+Driven Automation on Job Displacement and Skill Development: A Societal Perspective," 
+IEEE Silchar Subsection Conference (SILCON 2024), Agartala, India, 2024, pp. 1 -5, doi : 
+10.1109/SILCON63976.2024.10910660.  
+6. Jawhar, M., Z. Bitar, J. R. Miller and S. Jawhar, "AI -Powered Customized University and 
+Career Guidance," Intermountain Engineering, Technology and Computing Conference 
+(IETC), Logan, UT, USA, 2024, pp. 157 -161, doi: 10.1109/IETC61393.2024.10564423.  
+7. Baklarova, V., V. Tabakova -Komsalova, E. Temelkova, S. Stoyanov and P. Georgiev, "AI -
+Based Advisory System for Career Guidance," International Conference on Big Data, 
+Knowledge and Control Systems Engineering (BdKCSE), Bankya, Bulgaria, 2025, pp. 1 -
+8, doi:  10.1109/BdKCSE67969.2025.11300533.  
+8. Rakshitha, G., S. Mahapatra and N. Bhavana, "An AI -Driven Framework for Personalized 
+Career Path Recommendations," IEEE International Conference for Women in Innovation, 
+
+---- PAGE 31 ----
+Skill2Job: AI -Driven Placement Coordination and Skill Mapping System  
+Dept of CSE, ATMECE, Mysuru                   23 Technology & Entrepreneurship (ICWITE), Bangalore, India, 2025, pp. 1 -6, doi: 
+10.1109/ICWITE64848.2025.11306958.  
+9. Prathyusha, G., U. Kavya, B. Naresh and T. S. Karthik, "Skill Mentor: AI -Driven Student 
+Skill Enhancement and Placement Prediction Framework," International Conference on 
+Electronics, Communication and Aerospace Technology (ICECA), Coimbatore, India, 
+2025,  pp. 1595 -1602, doi: 10.1109/ICECA66444.2025.11382950.  
+10. Kumar, A. and S. Singh, "Machine Learning Techniques for Resume Classification and 
+Candidate Recommendation," International Journal of Computer Applications, vol. 182, 
+no. 45, pp. 12 –18, 2023.  
+11. Sharma, R. and P. Gupta, "Natural Language Processing Based Resume Parsing and Job 
+Matching System," International Journal of Advanced Computer Science and Applications 
+(IJACSA), vol. 14, no. 6, pp. 455 –462, 2023.  
+12. Brown, T. and J. Wilson, "Artificial Intelligence in Recruitment: Opportunities and 
+Challenges," International Journal of Artificial Intelligence Research, vol. 12, no. 2, pp. 
+98–110, 2022.  
+

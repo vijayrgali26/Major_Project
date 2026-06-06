@@ -17,6 +17,8 @@ interface CertificationEntry {
 }
 
 interface ProfileData {
+  user_name: string;
+  user_email: string;
   institution: string;
   degree: string;
   branch: string;
@@ -24,6 +26,7 @@ interface ProfileData {
   graduation_year: string;
   dream_job: string;
   expected_lpa: string;
+  phone: string;
   skills: string[];
   projects: ProjectEntry[];
   certifications: CertificationEntry[];
@@ -37,6 +40,7 @@ interface FieldErrors {
   graduation_year?: string;
   dream_job?: string;
   expected_lpa?: string;
+  phone?: string;
   general?: string;
 }
 
@@ -49,6 +53,8 @@ export default function Profile() {
   const { showToast } = useToast();
   const [mode, setMode] = useState<ProfileMode>('choose');
   const [form, setForm] = useState<ProfileData>({
+    user_name: '',
+    user_email: '',
     institution: '',
     degree: '',
     branch: '',
@@ -56,6 +62,7 @@ export default function Profile() {
     graduation_year: '',
     dream_job: '',
     expected_lpa: '',
+    phone: '',
     skills: [],
     projects: [],
     certifications: [],
@@ -76,6 +83,8 @@ export default function Profile() {
         const res = await api.get('/profile');
         const d = res.data;
         setForm({
+          user_name: d.user_name ?? '',
+          user_email: d.user_email ?? '',
           institution: d.institution ?? '',
           degree: d.degree ?? '',
           branch: d.branch ?? '',
@@ -83,6 +92,7 @@ export default function Profile() {
           graduation_year: d.graduation_year != null ? String(d.graduation_year) : '',
           dream_job: d.dream_job ?? '',
           expected_lpa: d.expected_lpa != null ? String(d.expected_lpa) : '',
+          phone: d.user_phone ?? '',
           skills: Array.isArray(d.skills_json) ? d.skills_json : (d.skills_json ? tryParseSkills(d.skills_json) : []),
           projects: Array.isArray(d.projects) ? d.projects : [],
           certifications: Array.isArray(d.certifications) ? d.certifications : [],
@@ -141,6 +151,13 @@ export default function Profile() {
       }
     }
 
+    if (form.phone.trim()) {
+      const phonePattern = /^[0-9+\-() ]{7,20}$/;
+      if (!phonePattern.test(form.phone.trim())) {
+        e.phone = 'Enter a valid phone number.';
+      }
+    }
+
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -161,6 +178,7 @@ export default function Profile() {
         graduation_year: parseInt(form.graduation_year, 10),
         dream_job: form.dream_job || null,
         expected_lpa: form.expected_lpa.trim() ? parseFloat(form.expected_lpa) : null,
+        phone: form.phone.trim() || null,
         skills: form.skills,
         projects: form.projects,
         certifications: form.certifications,
@@ -201,8 +219,8 @@ export default function Profile() {
       const extracted = res.data.extracted_profile;
 
       // Pre-fill the form with extracted data
-      setForm({
-        institution: extracted.institution || '',
+      setForm((prev) => ({
+        ...prev,        ...prev,        institution: extracted.institution || '',
         degree: extracted.degree || '',
         branch: extracted.branch || '',
         cgpa: extracted.cgpa != null ? String(extracted.cgpa) : '',
@@ -212,7 +230,7 @@ export default function Profile() {
         skills: Array.isArray(extracted.skills) ? extracted.skills : [],
         projects: Array.isArray(extracted.projects) ? extracted.projects : [],
         certifications: Array.isArray(extracted.certifications) ? extracted.certifications : [],
-      });
+      }));
 
       setSuccessMsg('Resume parsed successfully! Review and complete your profile below.');
       showToast('Resume parsed successfully!', 'success');
@@ -381,6 +399,29 @@ export default function Profile() {
       {errors.general && <div className="alert alert-error">{errors.general}</div>}
 
       <form onSubmit={handleSubmit} noValidate>
+        {/* Personal Details */}
+        <div className="page-section">
+          <h2 className="section-title">Student Details</h2>
+
+          <div className="field">
+            <label className="label">Full Name</label>
+            <input type="text" value={form.user_name} readOnly className="input input-readonly" />
+          </div>
+
+          <div className="field">
+            <label className="label">Email</label>
+            <input type="email" value={form.user_email} readOnly className="input input-readonly" />
+          </div>
+
+          <div className="field">
+            <label htmlFor="phone" className="label">Phone</label>
+            <input id="phone" type="text" value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              className={`input${errors.phone ? ' input-error' : ''}`} />
+            {errors.phone && <span className="field-error">{errors.phone}</span>}
+          </div>
+        </div>
+
         {/* Academic Details */}
         <div className="page-section">
           <h2 className="section-title">Academic Details</h2>

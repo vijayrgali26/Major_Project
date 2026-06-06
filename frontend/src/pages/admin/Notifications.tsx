@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useToast } from '../../components/Toast';
-import api from '../../services/api';
 
 interface NotificationEntry {
   id: number;

@@ -218,6 +218,37 @@ Skill2Job/
 ### Prerequisites
 - Python 3.12+
 - Node.js 18+
+
+### Run the full app from one command
+From the repository root, use the included script to build the frontend and start the backend server that serves the React app:
+
+PowerShell:
+```powershell
+./start-app.ps1
+```
+
+Command Prompt:
+```bat
+start-app.bat
+```
+
+Optional port override:
+```powershell
+./start-app.ps1 -Port 5001
+```
+```bat
+start-app.bat 5001
+```
+
+To run the backend in production mode, set `DATABASE_URL` first and pass `-Config production`:
+```powershell
+$env:DATABASE_URL = 'sqlite:///backend/prod.db'
+./start-app.ps1 -Port 5001 -Config production
+```
+```bat
+set DATABASE_URL=sqlite:///backend\prod.db
+start-app.bat 5001 production
+```
 - MySQL (or SQLite for development)
 
 ### Backend Setup

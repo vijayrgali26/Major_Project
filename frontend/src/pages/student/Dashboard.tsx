@@ -23,6 +23,9 @@ interface StudentDashboardData {
   skill_breakdown: Record<string, number>;
   matched_job_count: number;
   top_recommendations: JobRecommendation[];
+  dream_job?: string;
+  expected_lpa?: number;
+  last_updated?: string;
 }
 
 export default function StudentDashboard() {
@@ -62,6 +65,7 @@ export default function StudentDashboard() {
 
   const readinessScore = prediction?.probability ?? 0;
   const profileComplete = data?.profile_completeness ?? 0;
+  const recommendations = data?.top_recommendations ?? [];
 
   if (loading) {
     return (
@@ -114,6 +118,32 @@ export default function StudentDashboard() {
           </div>
         </div>
 
+        {data?.dream_job || data?.expected_lpa ? (
+          <div className="dash-widget" style={{ marginTop: '1rem' }}>
+            <h3 className="dash-widget-title">🎯 Career Snapshot</h3>
+            <div className="career-snapshot">
+              {data?.dream_job && (
+                <div>
+                  <strong>Target Role:</strong>
+                  <p>{data.dream_job}</p>
+                </div>
+              )}
+              {data?.expected_lpa != null && (
+                <div>
+                  <strong>Expected LPA:</strong>
+                  <p>{data.expected_lpa.toFixed(1)} LPA</p>
+                </div>
+              )}
+              {data?.last_updated && (
+                <div>
+                  <strong>Last Updated:</strong>
+                  <p>{new Date(data.last_updated).toLocaleDateString()}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : null}
+
         {/* Two Column Layout */}
         <div className="dashboard-grid-2col">
           {/* Left Column */}
@@ -135,7 +165,7 @@ export default function StudentDashboard() {
                     <span className="prediction-ring-value">{readinessScore.toFixed(0)}%</span>
                   </div>
                   <div className="prediction-factors">
-                    {prediction.factors.map((f, i) => (
+                    {prediction.factors?.map((f, i) => (
                       <span key={i} className={`factor-badge factor-${f.impact}`}>
                         {f.impact === 'positive' ? '✓' : '✕'} {f.factor}
                       </span>
@@ -150,7 +180,7 @@ export default function StudentDashboard() {
               <div className="dash-widget">
                 <h3 className="dash-widget-title">📈 Skill Distribution</h3>
                 <div className="skill-bars">
-                  {Object.entries(data.skill_breakdown).map(([category, count]) => (
+                  {Object.entries(data.skill_breakdown ?? {}).map(([category, count]) => (
                     <div key={category} className="skill-bar-item">
                       <div className="skill-bar-header">
                         <span>{category}</span>
@@ -174,9 +204,9 @@ export default function StudentDashboard() {
                 <h3 className="dash-widget-title">💼 Top Job Matches</h3>
                 <Link to="/student/jobs" className="dash-widget-link">View All →</Link>
               </div>
-              {data && data.top_recommendations.length > 0 ? (
+              {recommendations.length > 0 ? (
                 <div className="job-rec-list">
-                  {data.top_recommendations.map((rec) => (
+                  {recommendations.map((rec) => (
                     <div key={rec.job_role_id} className="job-rec-item">
                       <div className="job-rec-info">
                         <span className="job-rec-title">{rec.title}</span>

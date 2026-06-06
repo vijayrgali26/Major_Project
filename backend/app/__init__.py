@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, send_from_directory
+from flask import Flask, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -51,28 +51,28 @@ def create_app(config_name='default'):
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # Import models so SQLAlchemy registers them for migrations and create_all
-    from app import models  # noqa: F401
+    from . import models  # noqa: F401
 
     # Register blueprints
-    from app.routes.auth_routes import auth_bp
+    from .routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
 
-    from app.routes.profile_routes import profile_bp
+    from .routes.profile_routes import profile_bp
     app.register_blueprint(profile_bp)
 
-    from app.routes.skill_routes import skill_bp
+    from .routes.skill_routes import skill_bp
     app.register_blueprint(skill_bp)
 
-    from app.routes.job_routes import job_bp
+    from .routes.job_routes import job_bp
     app.register_blueprint(job_bp)
 
-    from app.routes.resume_routes import resume_bp
+    from .routes.resume_routes import resume_bp
     app.register_blueprint(resume_bp)
 
-    from app.routes.admin_routes import admin_bp
+    from .routes.admin_routes import admin_bp
     app.register_blueprint(admin_bp)
 
-    from app.routes.dashboard_routes import dashboard_bp
+    from .routes.dashboard_routes import dashboard_bp
     app.register_blueprint(dashboard_bp)
 
     # Register input sanitization before_request hook
@@ -82,6 +82,16 @@ def create_app(config_name='default'):
     # Register global error handlers
     from app.utils.error_handlers import register_error_handlers
     register_error_handlers(app)
+
+    # Health endpoint so the backend can be verified without the React build.
+    @app.route("/api/health", methods=["GET"])
+    def health_check():
+        return jsonify({"status": "ok", "environment": config_name}), 200
+
+    if not has_frontend:
+        @app.route("/", methods=["GET"])
+        def root_index():
+            return jsonify({"message": "Backend is running", "status": "ok"}), 200
 
     # ------------------------------------------------------------------
     # Catch-all route: serve React Router's index.html for any non-API

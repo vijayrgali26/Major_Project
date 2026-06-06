@@ -9,7 +9,7 @@ import json
 import logging
 
 from app import db
-from app.models import StudentProfile, Project, Certification
+from app.models import StudentProfile, Project, Certification, User
 
 logger = logging.getLogger(__name__)
 
@@ -119,6 +119,16 @@ def create_or_update_profile(user_id: int, data: dict) -> dict:
             if expected_lpa < 0.0 or expected_lpa > 100.0:
                 raise ValueError({"expected_lpa": "expected_lpa must be between 0.0 and 100.0"})
         profile.expected_lpa = expected_lpa
+
+    # ---- Handle phone update ----
+    if "phone" in data:
+        phone = data["phone"]
+        if phone is not None:
+            phone = str(phone).strip()
+        if profile.user is None:
+            profile.user = db.session.get(User, user_id)
+        if profile.user is not None:
+            profile.user.phone = phone
 
     # ---- 4. Handle skills ----
     skills = data.get("skills")
