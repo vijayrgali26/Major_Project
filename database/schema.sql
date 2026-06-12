@@ -340,6 +340,46 @@ CREATE TABLE IF NOT EXISTS `certifications` (
   CONSTRAINT `fk_certifications_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Interviews scheduled for shortlisted students
+CREATE TABLE IF NOT EXISTS `interviews` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `student_id` INT NOT NULL,
+  `job_role_id` INT DEFAULT NULL,
+  `company_id` INT DEFAULT NULL,
+  `scheduled_by` INT DEFAULT NULL,
+  `interview_date` DATE NOT NULL,
+  `interview_time` VARCHAR(20) DEFAULT NULL,
+  `mode` VARCHAR(30) DEFAULT 'in-person',
+  `venue_or_link` VARCHAR(500) DEFAULT NULL,
+  `status` VARCHAR(30) NOT NULL DEFAULT 'scheduled',
+  `feedback` TEXT DEFAULT NULL,
+  `result` VARCHAR(30) DEFAULT NULL,
+  `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  INDEX `idx_interviews_student` (`student_id`),
+  INDEX `idx_interviews_date` (`interview_date`),
+  INDEX `idx_interviews_status` (`status`),
+  CONSTRAINT `fk_interviews_student` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_interviews_job` FOREIGN KEY (`job_role_id`) REFERENCES `job_roles` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_interviews_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_interviews_user` FOREIGN KEY (`scheduled_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Notifications and announcements sent by placement officers or admins
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `sent_by` INT DEFAULT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `message` TEXT NOT NULL,
+  `target_audience` VARCHAR(50) NOT NULL DEFAULT 'all_students',
+  `target_department` VARCHAR(150) DEFAULT NULL,
+  `is_email` TINYINT(1) NOT NULL DEFAULT 0,
+  `recipient_count` INT DEFAULT 0,
+  `sent_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  INDEX `idx_notifications_sent_at` (`sent_at`),
+  CONSTRAINT `fk_notifications_user` FOREIGN KEY (`sent_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Password reset tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,

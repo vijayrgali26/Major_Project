@@ -75,6 +75,12 @@ def create_app(config_name='default'):
     from .routes.dashboard_routes import dashboard_bp
     app.register_blueprint(dashboard_bp)
 
+    from .routes.interview_routes import interview_bp
+    app.register_blueprint(interview_bp)
+
+    from .routes.notification_routes import notification_bp
+    app.register_blueprint(notification_bp)
+
     # Register input sanitization before_request hook
     from app.utils.sanitizer import register_sanitizer
     register_sanitizer(app)

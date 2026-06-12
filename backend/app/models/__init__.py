@@ -14,6 +14,8 @@ from app.models.models import (  # noqa: F401
     UncategorizedSkill,
     CourseRecommendation,
     PlacementRecord,
+    Interview,
+    Notification,
     ResumeUpload,
     PasswordResetToken,
 )
